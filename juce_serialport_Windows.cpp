@@ -133,7 +133,7 @@ bool SerialPort::open(const String & portPath)
     portHandle = CreateFile((const char*)portPath.toUTF8(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, NULL);
     if (portHandle == INVALID_HANDLE_VALUE)
     {
-        //DBG_PRINTF((T("(SerialPort::open) CreateFile failed with error %d.\n"), GetLastError()));
+        DBG (String::formatted ("(SerialPort::open) CreateFile failed with error %d.\n", GetLastError()));
         portHandle = 0;
         return false;
     }
