@@ -140,7 +140,8 @@ public:
 	virtual ~SerialPortInputStream()
 	{
 		signalThreadShouldExit();
-		waitForThreadToExit(500);
+        cancel ();
+        waitForThreadToExit (500);
 	}
 	enum notifyflag{NOTIFY_OFF=0, NOTIFY_ON_CHAR, NOTIFY_ALWAYS};
 	void setNotify(notifyflag _notify=NOTIFY_ON_CHAR, char c=0)
@@ -189,6 +190,8 @@ public:
 	};
 	virtual juce::int64 getPosition(){return -1;}
 	virtual bool setPosition(juce::int64 /*newPosition*/){return false;}
+    virtual void cancel ();
+    SerialPort* getPort() { return port; }
 private:
 	SerialPort * port;
 	int bufferedbytes;
@@ -209,13 +212,16 @@ public:
 	virtual ~SerialPortOutputStream()
 	{
 		signalThreadShouldExit();
-		waitForThreadToExit(500);
+        cancel ();
+        waitForThreadToExit (500);
 	}
 	virtual void run();
 	virtual void flush(){}
 	virtual bool setPosition(juce::int64 /*newPosition*/){return false;}
 	virtual juce::int64 getPosition(){return -1;}
 	virtual bool write(const void *dataToWrite, size_t howManyBytes);
+    virtual void cancel ();
+    SerialPort* getPort() { return port; }
 private:
 	SerialPort * port;
 	int bufferedbytes;
